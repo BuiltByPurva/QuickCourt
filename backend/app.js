@@ -15,6 +15,13 @@ app.use('/api', routes);
 const authRoutes = require('./src/routes/auth.routes');
 app.use('/api/auth', authRoutes);
 
+const facilityRoutes = require("./src/routes/facility.routes");
+app.use("/api/facilities", facilityRoutes);
+
+const facilityPhotoRoutes = require("./src/routes/facilityPhoto.routes");
+app.use("/api/facility-photos", facilityPhotoRoutes);
+
+
 
 // Error handler
 app.use(errorMiddleware);

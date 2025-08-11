@@ -35,8 +35,8 @@ Facility.hasMany(Court, { foreignKey: 'facility_id', as: 'courts' });
 Court.belongsTo(Facility, { foreignKey: 'facility_id', as: 'facility' });
 
 // Facility ↔ FacilityPhoto
-Facility.hasMany(FacilityPhoto, { foreignKey: 'facility_id', as: 'photos' });
-FacilityPhoto.belongsTo(Facility, { foreignKey: 'facility_id', as: 'facility' });
+Facility.hasMany(FacilityPhoto, { foreignKey: 'facility_id', as: 'photos', onDelete: 'CASCADE'});
+FacilityPhoto.belongsTo(Facility, { foreignKey: 'facility_id', as: 'facility', onDelete: 'CASCADE'});
 
 // Court ↔ CourtAvailability
 Court.hasMany(CourtAvailability, { foreignKey: 'court_id', as: 'availability' });
