@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const facilityController = require("../controllers/facility.controller");
-const authMiddleware = require("../middleware/auth.middleware");
+const authMiddleware = require("../middlewares/auth.middleware");
 
 // Public routes (no authentication required)
 router.get("/", facilityController.getAllFacilities);

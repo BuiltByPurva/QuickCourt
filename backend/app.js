@@ -1,28 +1,35 @@
+// app.js
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const helmet = require('helmet');
-const routes = require('./src/routes'); // <-- this is now a router function
-const errorMiddleware = require('./src/middleware/error.middleware');
+const morgan = require('morgan');
+const path = require('path');
 
 const app = express();
-app.use(helmet());
+
+// Middlewares
 app.use(cors());
 app.use(express.json());
+app.use(morgan('dev'));
 
-// All API routes
-app.use('/api', routes);
-
+// Routes
 const authRoutes = require('./src/routes/auth.routes');
+const usersRoutes = require('./src/routes/users.routes');
+const facilityRoutes = require('./src/routes/facility.routes');
+// Add more routes here as needed...
+
 app.use('/api/auth', authRoutes);
+app.use('/api/users', usersRoutes);
+app.use('/api/facility', facilityRoutes);
 
-const facilityRoutes = require("./src/routes/facility.routes");
-app.use("/api/facilities", facilityRoutes);
+// Default route
+app.get('/', (req, res) => {
+  res.send('API is running...');
+});
 
-const facilityPhotoRoutes = require("./src/routes/facilityPhoto.routes");
-app.use("/api/facility-photos", facilityPhotoRoutes);
+// 404 handler
+app.use((req, res, next) => {
+  res.status(404).json({ message: 'Route not found' });
+});
 
-
-
-// Error handler
-app.use(errorMiddleware);
 module.exports = app;

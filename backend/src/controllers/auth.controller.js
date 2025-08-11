@@ -46,6 +46,8 @@ const bcrypt = require('bcrypt');
 const { User, OTP } = require('../models');
 const { generateOTP } = require('../utils/otp');
 const { sendEmail } = require('../utils/email');
+const { Op } = require('sequelize');
+
 
 // exports.login = async (req, res) => {
 //   try {
