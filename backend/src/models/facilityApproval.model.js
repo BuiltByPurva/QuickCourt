@@ -1,9 +1,9 @@
-// review.model.js
+// facilityApproval.model.js
 module.exports = (sequelize, DataTypes) => {
-    const Review = sequelize.define(
-      'Review',
+    const FacilityApproval = sequelize.define(
+      'FacilityApproval',
       {
-        review_id: {
+        approval_id: {
           type: DataTypes.BIGINT.UNSIGNED,
           primaryKey: true,
           autoIncrement: true,
@@ -12,19 +12,15 @@ module.exports = (sequelize, DataTypes) => {
           type: DataTypes.BIGINT.UNSIGNED,
           allowNull: false,
         },
-        user_id: {
+        admin_id: {
           type: DataTypes.BIGINT.UNSIGNED,
+          allowNull: true, // Can be null if admin is deleted
+        },
+        action: {
+          type: DataTypes.ENUM('approved', 'rejected'),
           allowNull: false,
         },
-        rating: {
-          type: DataTypes.INTEGER,
-          allowNull: false,
-          validate: {
-            min: 1,
-            max: 5,
-          },
-        },
-        review_text: {
+        comment: {
           type: DataTypes.TEXT,
           allowNull: true,
         },
@@ -34,11 +30,11 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       {
-        tableName: 'reviews',
-        timestamps: false, // Using created_at manually
+        tableName: 'facility_approvals',
+        timestamps: false,
       }
     );
   
-    return Review;
+    return FacilityApproval;
   };
   

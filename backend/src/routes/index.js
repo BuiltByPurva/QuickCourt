@@ -1,16 +1,19 @@
-// backend/src/routes/index.js
 const express = require('express');
-const authRoutes = require('./auth.routes');
-const bookingRoutes = require('./booking.routes');
-const facilityRoutes = require('./facility.routes');
-const courtRoutes = require('./court.routes');
 const router = express.Router();
 
-// Register routes
-router.use('/auth', authRoutes);
-router.use('/bookings', bookingRoutes);
-router.use('/facilities', facilityRoutes);
-router.use('/courts', courtRoutes);
-// add more routes here
+router.use('/auth', require('./auth.routes'));
+router.use('/users', require('./users.routes'));
+router.use('/facilities', require('./facilities.routes'));
+router.use('/courts', require('./courts.routes'));
+router.use('/bookings', require('./bookings.routes'));
+router.use('/reviews', require('./reviews.routes'));
+router.use('/payments', require('./payments.routes'));
+router.use('/chats', require('./chats.routes'));
+router.use('/messages', require('./messages.routes'));
+router.use('/attachments', require('./attachments.routes'));
+// router.use('/participants', require('./participants.routes'));
+router.use('/presence', require('./presence.routes'));
+router.use('/typing', require('./typing.routes'));
+router.use('/moderation', require('./moderation.routes'));
 
 module.exports = router;

@@ -1,33 +1,49 @@
-//to be implemented in this 
-const http = require('http');
-const app = require('./app');
-const { sequelize } = require('./src/models');
 require('dotenv').config();
+const express = require('express');
+const cors = require('cors');
+const morgan = require('morgan');
 
-const port = process.env.PORT || 5000;
-const server = http.createServer(app);
-const { Server } = require('socket.io');
+const app = express();
+const PORT = process.env.PORT || 3000;
+require('./src/models');
 
-const io = new Server(server, {
-  cors: { origin: "*" }
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
+
+// Import routes
+const authRoutes = require('./src/routes/auth.routes');
+// You can add other routes here, e.g.:
+// const userRoutes = require('./routes/users.routes');
+// const facilityRoutes = require('./routes/facilities.routes');
+
+// Middleware
+app.use(cors());                 // Enable CORS for all origins
+app.use(morgan('dev'));          // Logger middleware
+app.use(express.json());         // Parse JSON request bodies
+
+// Routes
+app.use('/auth', authRoutes);
+// Add other routes:
+// app.use('/users', userRoutes);
+// app.use('/facilities', facilityRoutes);
+
+// Root route
+app.get('/', (req, res) => {
+  res.send('Welcome to QuickCourt API');
 });
 
-// attach io to app so controllers can access it
-app.set('io', io);
-
-io.on('connection', socket => {
-  console.log('socket connected', socket.id);
-  socket.on('disconnect', () => console.log('socket disconnected', socket.id));
+// 404 handler for unknown routes
+app.use((req, res, next) => {
+  res.status(404).json({ message: 'Route not found' });
 });
 
-(async () => {
-  try {
-    await sequelize.authenticate();
-    console.log('DB OK');
-    // Quick dev convenience: sync models (use migrations in production)
-    await sequelize.sync({ alter: true });
-    server.listen(port, () => console.log(`Server running on ${port}`));
-  } catch (err) {
-    console.error('Failed to start', err);
-  }
-})();
+// Global error handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: 'Something went wrong!', error: err.message });
+});
+
+// Start server
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});

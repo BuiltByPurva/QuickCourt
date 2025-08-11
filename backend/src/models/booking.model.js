@@ -1,14 +1,51 @@
-// src/models/booking.model.js
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/db');
-const Booking = sequelize.define('Booking', {
-  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  courtId: { type: DataTypes.INTEGER, allowNull: false },
-  userId: { type: DataTypes.INTEGER, allowNull: false },
-  date: { type: DataTypes.DATEONLY, allowNull: false },
-  startTime: { type: DataTypes.TIME, allowNull: false },
-  endTime: { type: DataTypes.TIME, allowNull: false },
-  status: { type: DataTypes.ENUM('pending','confirmed','cancelled'), defaultValue: 'confirmed'}
-}, { tableName: 'bookings' });
+// booking.model.js
+module.exports = (sequelize, DataTypes) => {
+  const Booking = sequelize.define(
+    'Booking',
+    {
+      booking_id: {
+        type: DataTypes.BIGINT.UNSIGNED,
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      court_id: {
+        type: DataTypes.BIGINT.UNSIGNED,
+        allowNull: false,
+      },
+      facility_id: {
+        type: DataTypes.BIGINT.UNSIGNED,
+        allowNull: true, // Facility might be optional
+      },
+      user_id: {
+        type: DataTypes.BIGINT.UNSIGNED,
+        allowNull: false,
+      },
+      owner_id: {
+        type: DataTypes.BIGINT.UNSIGNED,
+        allowNull: false,
+      },
+      start_time: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      end_time: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      status: {
+        type: DataTypes.ENUM('confirmed', 'cancelled', 'completed', 'pending'),
+        defaultValue: 'confirmed',
+      },
+      created_at: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
+      },
+    },
+    {
+      tableName: 'bookings',
+      timestamps: false, // Already using created_at manually
+    }
+  );
 
-module.exports = Booking;
+  return Booking;
+};
