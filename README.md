@@ -133,4 +133,4 @@ Profile Page
 
 
 mockups: https://link.excalidraw.com/l/65VNwvy7c4X/AU4FuaybEgm
-Diagram: https://app.eraser.io/workspace/8Pols9AjYqVU1iAawDUv
+Diagram: [https://app.eraser.io/workspace/8Pols9AjYqVU1iAawDUv](https://app.eraser.io/workspace/8Pols9AjYqVU1iAawDUv?origin=share)
