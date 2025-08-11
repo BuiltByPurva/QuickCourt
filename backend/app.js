@@ -12,7 +12,10 @@ app.use(express.json());
 // All API routes
 app.use('/api', routes);
 
+const authRoutes = require('./src/routes/auth.routes');
+app.use('/api/auth', authRoutes);
+
+
 // Error handler
 app.use(errorMiddleware);
-
 module.exports = app;
